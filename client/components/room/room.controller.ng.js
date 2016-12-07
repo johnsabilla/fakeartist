@@ -71,11 +71,7 @@ angular.module('fakeArtistApp')
       //Only the creator of the room can click start game.
       if(room) {
         if(room.isStarted === true && ($location.path() !== '/inplay/'+room.name)) {
-          //$window.location.href = '/inplay/'+ room.name;
           $state.go('inplay', { "roomId": room.name });
-          //$scope.proceed();
-          //$location.path('/inplay/'+ room.name);
-          //break;
         }
 
         for(var x = 0; x < room.players.length; x++) {

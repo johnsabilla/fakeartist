@@ -1,0 +1,18 @@
+{
+  "generator-angular-meteor": {
+    "filters": {
+      "js": true,
+      "html": true,
+      "css": true,
+      "pagination": false,
+      "framework": "material",
+      "auth": false,
+      "appname": "fakeArtistApp",
+      "projectname": "fakeArtist",
+      "modules": "'angular-meteor',\n  'ui.router',\n  'ngMaterial'",
+      "usedBower": false,
+      "bower": false
+    },
+    "appname": "fakeArtist"
+  }
+}

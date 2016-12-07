@@ -1,0 +1,57 @@
+<div class="rooms" layout="row">
+	<span flex=""></span>
+		<div layout="column">
+
+		<h2 class="md-headline">Waiting for more players...</h2>
+	
+		<div ng-repeat="room in single">
+
+		<md-toolbar layout="row" class="md-hue-3">
+			<div class="md-toolbar-tools">
+				<span>access code: &nbsp;</span> <span class="md-subhead"><b>{{room.name}}</b></span>
+			</div>
+		</md-toolbar>
+
+		<md-list>	
+				<md-content>
+					<my-list flex="">
+						<md-list-item class="md-3-line"  ng-repeat= "user in room.players" ng-click="null">
+							    <ng-md-icon icon="face"></ng-md-icon> 
+								<div class="md-list-item-text" layout="column">
+									<h3>{{$index+1}}. {{user.name}}</h3>
+									<p>{{user.id}}</p>
+								</div>
+							<md-divider></md-divider>
+						</md-list-item>
+
+					</my-list>
+				</md-content>
+		</md-list>
+	
+		<div ng-if="isNew">						
+			<form name="userName">
+                <md-input-container>
+                  <label>Enter name</label>
+                  <input type="text" name="userName" ng-model="user.name">
+                  <md-button ng-click="submit(user.name)"> 
+                     Save 
+                  </md-button>
+                </md-input-container>
+              </form>
+		</div>
+
+				</div>	
+		<md-button ng-disabled="!playersReady" class="md-raised md-button md-ink-ripple flex-50" ng-click="proceed()">
+			Start Game
+		</md-button>
+		</div>
+	<span flex=""></span>
+</div>
+
+<div layout="row" flex="noshrink" layout-align="center center" class="layout-align-center-center layout-row flex-noshrink">
+  <div layout=column>
+    <div id="licenter-footer" class="ng-binding flex">
+      <span class="md-caption"><u>FakeArtist</u> designed by John Sabilla</span>
+    </div>  
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="rooms" layout="row">
+	<span flex=""></span>
+		<div layout="column">
+
+		<h2 class="md-headline">Welcome to FakeArtist</h2>
+
+
+		<md-list>
+			<div ng-repeat= "room in rooms">
+				{{room.name}}
+				<md-list>
+					<div ng-repeat= "user in room.players">
+						{{user.name}}
+					</div>
+				</md-list>
+			</div>
+		</md-list>
+
+		</div>
+	<span flex=""></span>
+</div>
+
+<div layout="row" flex="noshrink" layout-align="center center" class="layout-align-center-center layout-row flex-noshrink">
+  <div layout=column>
+    <div id="licenter-footer" class="ng-binding flex">
+      <span class="md-caption"><u>FakeArtist</u> designed by John Sabilla</span>
+    </div>  
+  </div>
+</div>

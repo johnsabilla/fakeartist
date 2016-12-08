@@ -31,6 +31,18 @@ angular.module('fakeArtistApp')
 
   };
 
+  $scope.return = function() {
+    var start = {isStarted: false};
+    var chosenWord = { chosendWord: "" };
+    var room = Rooms.findOne({ "name": $stateParams.roomId });
+
+    if(room && ($scope.roomCreator == userId)){
+
+      Rooms.update({ "_id" : room._id}, {$unset: chosenWord });
+      Rooms.update({ "_id" : room._id}, {$unset: start });
+    }
+    $location.path('/rooms/' + room.name);
+  };
   $scope.proceed = function() {
     //pick fakeartist
     //show words
@@ -38,9 +50,17 @@ angular.module('fakeArtistApp')
     var start = {isStarted: true};
     var userId = Session.get('userId');
     var room = Rooms.findOne({ "name": $stateParams.roomId });
+    var words = Words.findOne({});
 
     if(room && ($scope.roomCreator == userId)) {
-      Rooms.update({ "_id" : room._id}, {$set: start});
+    
+      var index = Math.floor((Math.random() * ( words.words.length )));
+      var chosenWord = { "chosenWord" :words.words[index] };
+    
+      console.log(chosenWord);
+
+      Rooms.update({ "_id" : room._id}, {$set: chosenWord });
+      Rooms.update({ "_id" : room._id}, {$set: start });
 
       var index = Math.floor((Math.random() * ( room.players.length )));
 
@@ -58,6 +78,21 @@ angular.module('fakeArtistApp')
     }
     console.log('getting called');
     $location.path('/inplay/' + room.name);
+  };
+
+  $scope.main = function(){
+    var room = Rooms.findOne({ "name": $stateParams.roomId });
+    var currentUserId = Session.get("userId");
+    if(room){
+      console.log(Session.get("userId"));
+
+      Rooms.update({ "_id": room._id}, { $pull : { "players" : { "id": currentUserId } } } );
+
+      console.log( Rooms.findOne({ "name": $stateParams.roomId }) );
+      Session.set("userId", null);
+      Session.set("roomId", null);
+      $location.path('/');
+    }
   };
 
   $scope.helpers({
@@ -81,8 +116,8 @@ angular.module('fakeArtistApp')
         }
       }
 
-      console.log('roomCreator' + roomCreator);
-      console.log('currentUser' + userId);
+      console.log('roomCreator ' + roomCreator);
+      console.log('currentUser ' + userId);
       console.log(room.players.length);
 
       /**
@@ -99,20 +134,23 @@ angular.module('fakeArtistApp')
       return Rooms.find({ "name": $stateParams.roomId }).fetch();
     },
     inplay: function() {
-      console.log('loaded inplay: ' + $stateParams.roomId);
       var userId = Session.get('userId');
       var user = Users.findOne({ "_id": userId});
-      var currentUser = null;
+      var currentUser = {};
 
       if(user) {
         var room = Rooms.findOne({ "name": $stateParams.roomId});
 
         if(room) {
-          console.log(room);
+          if(room.isStarted === undefined && ($location.path() === '/inplay/'+room.name)) {
+            $state.go('room', { "roomId": room.name });
 
+          }
+
+          currentUser.chosenWord = room.chosenWord;
           for(var i = 0; i < room.players.length; i++){
             if(room.players[i].id == user._id) {
-              currentUser = room.players[i];
+              currentUser.player = room.players[i];
               return currentUser;
             }
           }

@@ -2,24 +2,29 @@
 	<span flex=""></span>
 		<div layout="column">
 
-		<h2 class="md-headline">Welcome to FakeArtist</h2>
-	
+			<h2 class="md-headline">Welcome to FakeArtist</h2>	
 			<div>
 				<div>
-					Name: {{ inplay.name }}
+					Name: {{ inplay.player.name }}
 				</div>
 				<div>
-					Id: {{ inplay.id }}
+					Id: {{ inplay.player.id }}
 				</div>
 				<div ng-show="inplay.isFakeArtist == true"> 
-				You are the fake artist!
+					You are the fake artist!
 				</div>
 				<div ng-show="inplay.isFakeArtist == null">
-				You are an artist.
+					You are an artist.
+				</div>
+				<div>
+					Draw: {{ inplay.chosenWord }}	
 				</div>
 			</div>
-
-
+			
+			<md-button ng-disabled="!playersReady" class="md-raised md-button md-ink-ripple flex-50" ng-click="return()">
+				End Game
+			</md-button>
+			
 		</div>
 	<span flex=""></span>
 </div>

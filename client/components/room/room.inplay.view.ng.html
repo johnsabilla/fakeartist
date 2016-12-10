@@ -10,17 +10,18 @@
 				<div>
 					Id: {{ inplay.player.id }}
 				</div>
-				<div ng-show="inplay.isFakeArtist == true"> 
+				<div ng-show="inplay.player.isFakeArtist == true"> 
 					You are the fake artist!
 				</div>
-				<div ng-show="inplay.isFakeArtist == null">
+				<div ng-show="inplay.player.isFakeArtist == null || inplay.player.isFakeArtist == false">
 					You are an artist.
 				</div>
 				<div>
 					Draw: {{ inplay.chosenWord }}	
 				</div>
 			</div>
-			
+
+
 			<md-button ng-disabled="!playersReady" class="md-raised md-button md-ink-ripple flex-50" ng-click="return()">
 				End Game
 			</md-button>

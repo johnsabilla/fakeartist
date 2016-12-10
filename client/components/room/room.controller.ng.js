@@ -37,12 +37,23 @@ angular.module('fakeArtistApp')
     var room = Rooms.findOne({ "name": $stateParams.roomId });
 
     if(room && ($scope.roomCreator == userId)){
-
       Rooms.update({ "_id" : room._id}, {$unset: chosenWord });
       Rooms.update({ "_id" : room._id}, {$unset: start });
+
+
+      for(var x = 0; x < room.players.length; x++){
+        if(room.players[x].isFakeArtist === true) {
+          var isFakeArtist = room.players[x];
+          isFakeArtist.isFakeArtist = false;
+          console.log(isFakeArtist);
+          Rooms.update({ "_id" : room._id}, { $pull : { "players" : { "id" : isFakeArtist.id} } } );
+          Rooms.update({ "_id" : room._id}, { $push : { "players" : isFakeArtist} } );
+        }
+      }
     }
     $location.path('/rooms/' + room.name);
   };
+
   $scope.proceed = function() {
     //pick fakeartist
     //show words
@@ -65,7 +76,6 @@ angular.module('fakeArtistApp')
       var index = Math.floor((Math.random() * ( room.players.length )));
 
       var pickedPlayer = room.players[index];
-
       pickedPlayer.isFakeArtist = true;
       console.log(pickedPlayer);
 

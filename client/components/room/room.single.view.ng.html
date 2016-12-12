@@ -22,7 +22,7 @@
 								<i style="font-size: 16px; color: #FFC107; " ng-show="user.isCreator" class="material-icons">grade</i></h3>
 								<p>{{user.id}}</p>
 							</div>
-							<i ng-click="update(user);" class="material-icons" style="color: teal; font-size: 16px;">mode_edit</i>
+							<i ng-show="{{ user.id  == userId }}" ng-click="update(user);" class="material-icons" style="color: teal; font-size: 16px;">mode_edit</i>
 							<md-divider></md-divider>
 						</md-list-item>
 

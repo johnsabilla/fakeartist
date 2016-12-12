@@ -9,6 +9,7 @@ angular.module('fakeArtistApp')
   });
 
   var userId = Session.get('userId');
+  $scope.userId = userId;
 
   if(userId == null ) {
     $scope.isNew = true;
@@ -22,6 +23,7 @@ angular.module('fakeArtistApp')
     //console.log('user' + newUserId);
 
     Session.set('userId', newUserId);
+    $scope.userId = newUserId;
     $scope.isNew = false;
 
     newUser.id = newUserId;
@@ -194,10 +196,7 @@ angular.module('fakeArtistApp')
         }
       }
 
-      console.log('roomCreator ' + roomCreator);
-      console.log('currentUser ' + userId);
-      console.log(room.players.length);
-
+      console.log("currentUser " + userId);
       /**
        * Only make the game 'startable' if the number of players is 
        * atleast 3 and no more than 10 and also only the roomCreator 

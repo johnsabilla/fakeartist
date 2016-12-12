@@ -25,7 +25,9 @@ Meteor.startup(function() {
         "BATMAN",
         "Hot Pockets",
         "Weeaboo",
-        "Justin Bieber"
+        "Justin Bieber",
+        "Los Angeles Chargers",
+        "Lemur"
       ]
     };
     Words.insert(words);

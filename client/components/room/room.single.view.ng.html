@@ -13,14 +13,16 @@
 		</md-toolbar>
 
 		<md-list>	
-				<md-content>
+				<md-content class="">
 					<my-list flex="">
-						<md-list-item class="md-3-line"  ng-repeat= "user in room.players" ng-click="null">
-							    <ng-md-icon icon="face"></ng-md-icon> 
-								<div class="md-list-item-text" layout="column">
-									<h3>{{$index+1}}. {{user.name}}</h3>
-									<p>{{user.id}}</p>
-								</div>
+						<md-list-item class="md-3-line" ng-repeat= "user in room.players" ng-click="null">
+						    <i style="font-size:42px;" class="material-icons md-avatar">face</i>
+							<div class="md-list-item-text" layout="column">
+								<h3>{{$index+1}}. {{user.name}}
+								<i style="font-size: 16px; color: #FFC107; " ng-show="user.isCreator" class="material-icons">grade</i></h3>
+								<p>{{user.id}}</p>
+							</div>
+							<i ng-click="update(user);" class="material-icons" style="color: teal; font-size: 16px;">mode_edit</i>
 							<md-divider></md-divider>
 						</md-list-item>
 
@@ -56,7 +58,7 @@
 <div layout="row" flex="noshrink" layout-align="center center" class="layout-align-center-center layout-row flex-noshrink">
   <div layout=column>
     <div id="licenter-footer" class="ng-binding flex">
-      <span class="md-caption"><u>FakeArtist</u> designed by John Sabilla</span>
+      <span class="md-caption"><a href="https://github.com/johnsabilla/fakeartist" target="_blank">FakeArtist</a> designed by John Sabilla</span>
     </div>  
   </div>
 </div>

@@ -4,7 +4,7 @@ angular.module('fakeArtistApp')
 .config(function($stateProvider) {
   $stateProvider
   .state('rooms', {
-    url: '/rooms',
+    url: '/roomsHidden',
     templateUrl: 'client/components/room/room.view.ng.html',
     controller: 'RoomsCtrl'
   })

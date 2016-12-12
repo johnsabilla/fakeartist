@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('fakeArtistApp')
-.controller('RoomsCtrl', function($scope, $stateParams, $location, $state) {
+.controller('RoomsCtrl', function($scope, $stateParams, $location, $state, $mdDialog) {
   $scope.room = null;
   
   $scope.subscribe('rooms', function() {
@@ -93,17 +93,85 @@ angular.module('fakeArtistApp')
   $scope.main = function(){
     var room = Rooms.findOne({ "name": $stateParams.roomId });
     var currentUserId = Session.get("userId");
+
     if(room){
-      console.log(Session.get("userId"));
 
+      //If the user who created the room leaves,
+      //The next player in the players list in the room
+      //get promoted
+      if(Session.get("userId") === $scope.roomCreator
+        && room.players.length > 1){
+        console.log('roomCreator left the room');
+        var newRoomCreator = null;
+        //because index 0 is the original Creator
+        for(var x = 1; room.players.length; x++){
+          newRoomCreator = room.players[x];
+          $scope.roomCreator = newRoomCreator.id;
+          break;
+        }
+
+        newRoomCreator.isCreator = true;
+        Rooms.update({ "_id" : room._id}, { $pull : { "players" : { "id" : newRoomCreator.id} } } );
+        Rooms.update({ "_id" : room._id}, { $push : { "players" : newRoomCreator} } );
+
+      }
       Rooms.update({ "_id": room._id}, { $pull : { "players" : { "id": currentUserId } } } );
-
-      console.log( Rooms.findOne({ "name": $stateParams.roomId }) );
       Session.set("userId", null);
       Session.set("roomId", null);
-      $location.path('/');
     }
+
+    $location.path('/');
   };
+
+
+  $scope.delete = function(room){
+    console.log('button is clicked' + room._id);
+    Rooms.remove({ _id: room._id});
+  };
+
+  $scope.update = function(user){
+    console.log(user);
+    
+    $mdDialog.show({
+        locals: {user: user},
+        clickOutsideToClose: true,
+        scope: $scope,
+        preserveScope: true,
+        controller: function DialogController($scope, $mdDialog, user) {
+         $scope.closeDialog = function() {
+           $mdDialog.hide();
+         };
+
+         $scope.submitForm = function() {
+            console.log(user);
+            var updatedUser = user;
+            delete updatedUser.$$hashKey;
+            var room = Rooms.findOne({ "players.id" : updatedUser.id});
+
+            if(room){
+              Rooms.update({ "_id" : room._id}, { $pull : { "players" : { "id" : updatedUser.id} } } );
+              Rooms.update({ "_id" : room._id}, { $push : { "players" : updatedUser} } );
+            }
+            $mdDialog.hide();
+         };
+         $scope.user = user;
+        },
+        template: '<md-dialog>' +
+          '  <md-dialog-content>' +
+          '    <form name="userName">' +
+          '      <md-input-container>' +
+          '        <label>Enter new name</label>' +
+          '        <input type="text" name="userName" ng-model="user.name">' +
+          '         <md-button ng-click="submitForm()">' +
+          '           Save' +
+          '         </md-button>' +
+          '      </md-input-container>' +
+          '    </form>' +
+          '  </md-dialog-content>' +
+          '</md-dialog>'
+      });
+  };
+
 
   $scope.helpers({
     rooms: function() {

@@ -11,3 +11,9 @@ Rooms.allow({
     return true;
   }
 });
+
+Meteor.methods({
+	deleteRoom: function(id){
+		Rooms.remove(id);
+	}
+});

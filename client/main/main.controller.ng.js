@@ -46,14 +46,7 @@ angular.module('fakeArtistApp')
 
             var room = Rooms.find({ "name" : $scope.user.roomName }).fetch();
 
-            console.log('Found rooms: ' + room.length);
-            console.log(room);
-            console.log('Current number of users: ' + room[0].players.length);
-
-            if(room.length < 1) {
-              //room not found
-            }
-            else {
+            if(room.length > 0){
               if(room[0].players.length >= 10 ) {
                 //room is full
               }
@@ -62,6 +55,12 @@ angular.module('fakeArtistApp')
                 $location.path('/rooms/' + $scope.user.roomName);
               }
             }
+            else{
+              //Access code does not exist.
+              var error = {};
+              error.message = "Denied.";
+              $scope.error = error;
+            }
 
          };
         },
@@ -69,8 +68,9 @@ angular.module('fakeArtistApp')
           '  <md-dialog-content>' +
           '    <form name="userName">' +
           '      <md-input-container>' +
-          '        <label>Enter room name</label>' +
+          '        <label>Access code </label>' +
           '        <input type="text" name="userName" ng-model="user.roomName">' +
+          '     <div style="color:red;"> {{ error.message}} </div>' +
           '         <md-button ng-click="submitForm()">' +
           '           Join Game' +
           '         </md-button>' +
@@ -98,10 +98,15 @@ angular.module('fakeArtistApp')
               name: roomName,
               players: [{ "name": $scope.user.name, "id": newUserId, 'isCreator': true }]
             };
-            Session.set('userId', newUserId);
-            Rooms.insert(room);
-            $location.path('/rooms/' + roomName);
 
+            if(room){
+              Session.set('userId', newUserId);
+              Rooms.insert(room);
+              $location.path('/rooms/' + roomName);
+            }
+            else{
+
+            }
 
          };
         },

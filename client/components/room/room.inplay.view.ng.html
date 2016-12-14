@@ -10,13 +10,13 @@
 				<div>
 					Id: {{ inplay.player.id }}
 				</div>
-				<div ng-show="inplay.player.isFakeArtist == true"> 
-					You are the fake artist!
-				</div>
 				<div ng-show="inplay.player.isFakeArtist == null || inplay.player.isFakeArtist == false">
 					You are an artist.
 				</div>
-				<div>
+				<div ng-show="inplay.player.isFakeArtist == true"> 
+					You are the fake artist!
+				</div>
+				<div ng-show="!inplay.player.isFakeArtist">
 					Draw: {{ inplay.chosenWord }}	
 				</div>
 			</div>

@@ -132,7 +132,6 @@ angular.module('fakeArtistApp')
   };
 
   $scope.update = function(user){
-    console.log(user);
     
     $mdDialog.show({
         locals: {user: user},
@@ -196,7 +195,6 @@ angular.module('fakeArtistApp')
         }
       }
 
-      console.log("currentUser " + userId);
       /**
        * Only make the game 'startable' if the number of players is 
        * atleast 3 and no more than 10 and also only the roomCreator 

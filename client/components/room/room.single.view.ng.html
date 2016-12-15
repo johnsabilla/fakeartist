@@ -19,10 +19,14 @@
 						    <i style="font-size:42px;" class="material-icons md-avatar">face</i>
 							<div class="md-list-item-text" layout="column">
 								<h3>{{$index+1}}. {{user.name}}
-								<i style="font-size: 16px; color: #FFC107; " ng-show="user.isCreator" class="material-icons">grade</i></h3>
+								<i style="font-size: 16px; color: #FFC107; " ng-show="user.isCreator" class="material-icons">grade</i>
+							    </h3>
 								<p>{{user.id}}</p>
 							</div>
 							<i ng-show="{{ user.id  == userId }}" ng-click="update(user);" class="material-icons" style="color: teal; font-size: 16px;">mode_edit</i>
+						<span class="md-3-line" ng-repeat= "user in room.players">
+							<i ng-show="{{user.id == userId && user.isCreator}}" ng-click="kickUser(user);" class="material-icons" style="color: red; font-size: 16px;">clear</i>
+						</span>
 							<md-divider></md-divider>
 						</md-list-item>
 

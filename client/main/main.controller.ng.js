@@ -43,16 +43,16 @@ angular.module('fakeArtistApp')
          };
 
          $scope.submitForm = function() {
-
-            var room = Rooms.find({ "name" : $scope.user.roomName }).fetch();
+            var roomName = ($scope.user.roomName).toLowerCase();
+            var room = Rooms.find({ "name" : roomName }).fetch();
 
             if(room.length > 0){
               if(room[0].players.length >= 10 ) {
                 //room is full
               }
               else {
-                Session.set('roomId', $scope.user.roomName);
-                $location.path('/rooms/' + $scope.user.roomName);
+                Session.set('roomId', roomName);
+                $location.path('/rooms/' + roomName);
               }
             }
             else{
